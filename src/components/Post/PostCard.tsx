@@ -6,6 +6,7 @@ interface PostCardProps {
   shopData: Shop;
   className?: string;
   bgNone?: boolean;
+  isPassed?: boolean;
 }
 
 export default function PostCard({
@@ -14,10 +15,9 @@ export default function PostCard({
   className,
   bgNone,
 }: PostCardProps) {
-  const { hourlyPay, startsAt, closed, workhour } = noticeData;
+  const { hourlyPay, startsAt, closed, workhour, isPassed } = noticeData;
   const { name, address1, imageUrl, originalHourlyPay } = shopData;
 
-  const isPassed = new Date() > new Date(startsAt);
   const currentPostState: NoticeStatus = closed
     ? 'closed'
     : isPassed

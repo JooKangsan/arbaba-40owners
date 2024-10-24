@@ -5,6 +5,7 @@ interface NoticeBase {
   workhour: number;
   description: string;
   closed: boolean;
+  isPassed: boolean;
 }
 
 interface currentUserApplication {

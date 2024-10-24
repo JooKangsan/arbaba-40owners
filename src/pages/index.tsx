@@ -18,7 +18,16 @@ export default function Home(data: NoticeListResponseData) {
 export const getServerSideProps: GetServerSideProps = async () => {
   const data = await getNoticeList({ limit: 6 });
 
+  // 서버 사이드에서 isPassed 계산
+  const noticesWithIsPassed = data.notices.map((notice: Notice) => ({
+    ...notice,
+    isPassed: new Date() > new Date(notice.startsAt),
+  }));
+
   return {
-    props: data,
+    props: {
+      ...data,
+      notices: noticesWithIsPassed,
+    },
   };
 };
