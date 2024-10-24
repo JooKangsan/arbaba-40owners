@@ -47,10 +47,10 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <ModalsWrapper />
       <PopupsWrapper />
-      {loading && <Loading />}
       {!is404Page && <Gnb />}
       <main className="min-h-[calc(100vh-76px-162px)] tablet:min-h-[calc(100vh-76px-84px)] pc:min-h-[calc(100vh-72px-98px)]">
-        <Component {...pageProps} />
+        {loading && <Loading />}
+        {!loading && <Component {...pageProps} />}
       </main>
       <Footer />
     </RecoilRoot>
