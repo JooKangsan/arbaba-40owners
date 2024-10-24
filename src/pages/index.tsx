@@ -18,7 +18,11 @@ export default function Home(data: NoticeListResponseData) {
 export const getServerSideProps: GetServerSideProps = async () => {
   const data = await getNoticeList({ limit: 6 });
 
-  // 서버 사이드에서 isPassed 계산
+  if (!data.notices) {
+    // notices 값이 없을 경우 빈 배열로 초기화
+    data.notices = [];
+  }
+
   const noticesWithIsPassed = data.notices.map((notice: Notice) => ({
     ...notice,
     isPassed: new Date() > new Date(notice.startsAt),
