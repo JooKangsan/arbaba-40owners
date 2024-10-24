@@ -31,12 +31,26 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    const handleRouteChangeStart = () => {
+      setLoading(true);
+    };
 
-    return () => clearTimeout(timer);
-  }, []);
+    const handleRouteChangeComplete = () => {
+      const timer = setTimeout(() => {
+        setLoading(false);
+      }, 500);
+
+      return () => clearTimeout(timer);
+    };
+
+    router.events.on('routeChangeStart', handleRouteChangeStart);
+    router.events.on('routeChangeComplete', handleRouteChangeComplete);
+
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChangeStart);
+      router.events.off('routeChangeComplete', handleRouteChangeComplete);
+    };
+  }, [router.events]);
 
   const is404Page = router.pathname === '/404';
 
@@ -49,8 +63,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <PopupsWrapper />
       {!is404Page && <Gnb />}
       <main className="min-h-[calc(100vh-76px-162px)] tablet:min-h-[calc(100vh-76px-84px)] pc:min-h-[calc(100vh-72px-98px)]">
-        {loading && <Loading />}
-        {!loading && <Component {...pageProps} />}
+        {loading ? <Loading /> : <Component {...pageProps} />}
       </main>
       <Footer />
     </RecoilRoot>
