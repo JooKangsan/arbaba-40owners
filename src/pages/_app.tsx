@@ -28,6 +28,7 @@ const initializeState = ({ set }: MutableSnapshot) => {
 
 export default function App({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState(true);
+  const [isFirstLoad, setIsFirstLoad] = useState(true); // 첫 로드 체크
   const router = useRouter();
 
   useEffect(() => {
@@ -39,18 +40,31 @@ export default function App({ Component, pageProps }: AppProps) {
       const timer = setTimeout(() => {
         setLoading(false);
       }, 500);
-
       return () => clearTimeout(timer);
     };
 
+    // 첫 진입시에만 실행
+    if (isFirstLoad && router.pathname === '/') {
+      setIsFirstLoad(false);
+      router.replace(router.pathname);
+      return;
+    }
+
+    // 일반적인 라우트 변경 처리
     router.events.on('routeChangeStart', handleRouteChangeStart);
     router.events.on('routeChangeComplete', handleRouteChangeComplete);
 
+    // 컴포넌트 마운트 시 로딩 해제
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 500);
+
     return () => {
+      clearTimeout(timer);
       router.events.off('routeChangeStart', handleRouteChangeStart);
       router.events.off('routeChangeComplete', handleRouteChangeComplete);
     };
-  }, [router.events]);
+  }, [router.events, isFirstLoad, router.pathname]);
 
   const is404Page = router.pathname === '/404';
 
