@@ -210,7 +210,7 @@ function EditShopPage() {
             <h3 className="text-black font-bold text-20px tablet:text-24px pc:text-30px">
               가게 정보 수정
             </h3>
-            <button onClick={handleClose}>
+            <button aria-label="닫기" onClick={handleClose}>
               <IconCloseBlack />
             </button>
           </div>

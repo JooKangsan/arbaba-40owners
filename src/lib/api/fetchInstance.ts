@@ -7,7 +7,7 @@ const fetchInstance = createClient({
   headers: {
     'Content-Type': 'application/json',
   },
-  credentials: 'same-origin',
+  credentials: 'include',
 });
 
 // 요청 인터셉터 추가
