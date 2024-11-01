@@ -1,4 +1,4 @@
-import { axiosInstance } from './axiosInstance';
+import fetchInstance from './fetchInstance';
 
 interface ShopApplyData {
   shop_id: string;
@@ -24,24 +24,24 @@ export async function getShopApply({
     offset,
     limit,
   };
-  const response = await axiosInstance.get(
+  const response = await fetchInstance.get(
     `/shops/${shop_id}/notices/${notice_id}/applications`,
     { params }
   );
-  return response.data;
+  return response;
 }
 
 export async function postShopApply({ shop_id, notice_id }: ShopApplyData) {
-  const response = await axiosInstance.post(
+  const response = await fetchInstance.post(
     `/shops/${shop_id}/notices/${notice_id}/applications`,
     {}
   );
-  return response.data;
+  return response;
 }
 
 export async function putShopApply(href: string, applyStatus: string) {
-  const response = await axiosInstance.put(href, { status: applyStatus });
-  return response.data;
+  const response = await fetchInstance.put(href, { status: applyStatus });
+  return response;
 }
 
 export async function getUserApply({ user_id, offset, limit }: UserApplyData) {
@@ -50,8 +50,8 @@ export async function getUserApply({ user_id, offset, limit }: UserApplyData) {
     offset,
     limit,
   };
-  const response = await axiosInstance.get(`/users/${user_id}/applications`, {
+  const response = await fetchInstance.get(`/users/${user_id}/applications`, {
     params,
   });
-  return response.data;
+  return response;
 }

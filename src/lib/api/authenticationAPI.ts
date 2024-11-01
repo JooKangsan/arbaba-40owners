@@ -1,5 +1,5 @@
 import { User } from '@/recoil/atoms/AuthAtom';
-import { axiosInstance } from './axiosInstance';
+import fetchInstance from './fetchInstance';
 
 interface LoginData {
   email: string;
@@ -10,8 +10,8 @@ export async function postToken(
   body: LoginData,
   setAuthState: (value: User | ((prevState: User) => User)) => void
 ) {
-  const response = await axiosInstance.post(`/token`, body);
-  const { token, user } = response.data.item;
+  const response = await fetchInstance.post(`/token`, body);
+  const { token, user } = response.item;
   const userId = user.item.id;
   const userType = user.item.type;
   localStorage.setItem('token', token);
@@ -25,5 +25,5 @@ export async function postToken(
       isLogin: true,
     }));
   }
-  return response.data;
+  return response;
 }

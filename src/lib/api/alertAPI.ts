@@ -1,4 +1,4 @@
-import { axiosInstance } from './axiosInstance';
+import fetchInstance from './fetchInstance';
 
 interface GetAlertData {
   user_id: string;
@@ -12,17 +12,17 @@ export async function getAlerts({ user_id, offset, limit }: GetAlertData) {
     offset,
     limit,
   };
-  const response = await axiosInstance.get(`/users/${user_id}/alerts`, {
+  const response = await fetchInstance.get(`/users/${user_id}/alerts`, {
     params,
   });
-  return response.data;
+  return response;
 }
 
 export async function putAlerts({ user_id, alert_id }: GetAlertData) {
   const requestBody = {};
-  const response = await axiosInstance.put(
+  const response = await fetchInstance.put(
     `/users/${user_id}/alerts/${alert_id}`,
     requestBody
   );
-  return response.data;
+  return response;
 }

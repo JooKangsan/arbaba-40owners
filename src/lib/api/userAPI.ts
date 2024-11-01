@@ -1,5 +1,5 @@
 import { User } from '@/recoil/atoms/AuthAtom';
-import { axiosInstance } from './axiosInstance';
+import fetchInstance from './fetchInstance';
 
 interface UserInput {
   email: string;
@@ -19,12 +19,12 @@ export async function getUserData(
   type: string,
   setAuthState: (update: (prevState: User) => User) => void
 ) {
-  const response = await axiosInstance.get(`/users/${user_id}`);
+  const response = await fetchInstance.get(`/users/${user_id}`);
 
   if (type == 'employer') {
-    const shopId = response?.data?.item?.shop?.item?.id;
-    const address = response?.data?.item?.shop?.item?.address1;
-    const DetailAddress = response?.data?.item?.shop?.item?.address2;
+    const shopId = response?.item?.shop?.item?.id;
+    const address = response?.item?.shop?.item?.address1;
+    const DetailAddress = response?.item?.shop?.item?.address2;
     setAuthState((prevState: User) => ({
       ...prevState,
       shopId: shopId,
@@ -33,8 +33,8 @@ export async function getUserData(
       DetailAddress: DetailAddress,
     }));
   } else if (type === 'employee') {
-    const address = response?.data?.item?.address;
-    const userName = response?.data?.item?.name;
+    const address = response?.item?.address;
+    const userName = response?.item?.name;
     if (address) {
       setAuthState((prevState: User) => ({
         ...prevState,
@@ -44,12 +44,12 @@ export async function getUserData(
       }));
     }
   }
-  return response.data;
+  return response;
 }
 
 export async function postUserData(body: UserInput) {
-  const response = await axiosInstance.post(`/users`, body);
-  return response.data;
+  const response = await fetchInstance.post(`/users`, body);
+  return response;
 }
 
 export async function putUserData(
@@ -57,14 +57,14 @@ export async function putUserData(
   body: UserInfo,
   setAuthState: (update: (prevState: User) => User) => void
 ) {
-  const response = await axiosInstance.put(`/users/${user_id}`, body);
-  const userName = response?.data?.item?.name;
-  const address = response?.data?.item?.address1;
+  const response = await fetchInstance.put(`/users/${user_id}`, body);
+  const userName = response?.item?.name;
+  const address = response?.item?.address1;
   setAuthState((prevState: User) => ({
     ...prevState,
     userName: userName,
     isLogin: true,
     address: address,
   }));
-  return response.data;
+  return response;
 }

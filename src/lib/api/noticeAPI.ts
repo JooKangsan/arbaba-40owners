@@ -1,4 +1,4 @@
-import { axiosInstance } from './axiosInstance';
+import fetchInstance from './fetchInstance';
 
 interface GetNoticeListData {
   offset?: number;
@@ -34,30 +34,30 @@ export async function getNoticeList(
   const config = {
     params: params,
   };
-  const response = await axiosInstance.get(`/notices`, config);
-  return response.data;
+  const response = await fetchInstance.get(`/notices`, config);
+  return response;
 }
 
 export async function getShopNoticeList(
   shop_id: string,
   params: GetShopNoticeListData
 ) {
-  const response = await axiosInstance.get(`/shops/${shop_id}/notices`, {
+  const response = await fetchInstance.get(`/shops/${shop_id}/notices`, {
     params,
   });
-  return response.data;
+  return response;
 }
 
 export async function getShopNotice({ shop_id, notice_id }: GetShopNoticeData) {
-  const response = await axiosInstance.get(
+  const response = await fetchInstance.get(
     `/shops/${shop_id}/notices/${notice_id}`
   );
-  return response.data;
+  return response;
 }
 
 export async function postShopNotice(shop_id: string, body: ShopNoticeData) {
-  const response = await axiosInstance.post(`/shops/${shop_id}/notices`, body);
-  return response.data;
+  const response = await fetchInstance.post(`/shops/${shop_id}/notices`, body);
+  return response;
 }
 
 export async function putShopNotice(
@@ -65,9 +65,9 @@ export async function putShopNotice(
   notice_id: string,
   body: ShopNoticeData
 ) {
-  const response = await axiosInstance.put(
+  const response = await fetchInstance.put(
     `/shops/${shop_id}/notices/${notice_id}`,
     body
   );
-  return response.data;
+  return response;
 }
