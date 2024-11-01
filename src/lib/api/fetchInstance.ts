@@ -2,7 +2,7 @@
 import { createClient } from '@rivermountain/fetch-to-axios';
 import { handleApiError } from './ApiError';
 
-export const fetchInstance = createClient({
+const fetchInstance = createClient({
   baseURL: 'https://bootcamp-api.codeit.kr/api/06-12/the-julge/',
   headers: {
     'Content-Type': 'application/json',
