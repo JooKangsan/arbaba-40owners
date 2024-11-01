@@ -3,9 +3,10 @@ import { createClient } from '@rivermountain/fetch-to-axios';
 import { handleApiError } from './ApiError';
 
 const fetchInstance = createClient({
-  baseURL: 'https://bootcamp-api.codeit.kr/api/06-12/the-julge/',
+  baseURL: 'https://bootcamp-api.codeit.kr/api/06-12/the-julge',
   headers: {
     'Content-Type': 'application/json',
+    'Access-Control-Allow-Headers': 'Authorization, Content-Type',
   },
   credentials: 'include',
 });
